@@ -1,7 +1,4 @@
 function err = doFunction(param, settings, instance_data)
-    % TODO: fix assertion always wins in marked fxn's (i.e. there's no
-    % error-checking in these functions, could cause problems)
-    % TODO: abstract away from switch statement (OOP etc?)
 
     err = 0;
 
@@ -49,14 +46,9 @@ function err = doFunction(param, settings, instance_data)
 
         case 'Subharmonic to Harmonic Ratio - SHR'
             err = doSHR(settings, instance_data);
-
-        % otherwise
-        %     fprintf('Parameter " %s " not recognized.\n', param);
-        %     err = 1;
             
     end %endswitch
     
-
     assert (err == 0, 'Something went wrong.');
 
 end %endfunction
