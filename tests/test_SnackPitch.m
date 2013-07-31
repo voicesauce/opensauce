@@ -1,22 +1,38 @@
-settings = getSettings();
+function err = test_SnackPitch()
+	fprintf('Testing Snack Pitch...\n');
+	settings = getSettings();
 
-wavdir = 'tests/sounds';
-flist = dir(fullfile(wavdir, '*.wav'));
-n = length(flist);
-filelist = cell(1, n);
-for k=1:n
-    filelist{k} = flist(k).name;
-end
+	wavdir = '~/sounds';
+	flist = dir(fullfile(wavdir, '*.wav'));
+	n = length(flist);
+	filelist = cell(1, n);
+	for k=1:n
+	    filelist{k} = flist(k).name;
+	end
 
-wavfile = filelist{1};
-settings.wavfile = wavfile;
+	wavfile = [wavdir '/' filelist{1}];
 
-[y, Fs, nbits] = wavread(wavfile);
-settings.y = y;
-settings.Fs = Fs;
-settings.nbits = nbits;
+	fprintf('Using wavfile [ %s ]\n', wavfile);
 
-data_len = floor(length(y) / Fs * 1000 / settings.frameshift);
-settings.data_len = data_len;
+	assert (exist(wavfile, 'file') ~= 0, 'wavfile DNE');
 
-err = doSnackPitch(settings);
+	instance.wavfile = wavfile;
+
+	mfile = '~/sounds/a.mat';
+	instance.mfile = mfile;
+
+	[y, Fs, nbits] = wavread(wavfile);
+	instance.y = y;
+	instance.Fs = Fs;
+	instance.nbits = nbits;
+	instance.resampled = 0;
+	instance.verbose = 1;
+
+
+	data_len = floor(length(y) / Fs * 1000 / settings.frameshift);
+	instance.data_len = data_len;
+
+	err = doSnackPitch(settings, instance);
+	fprintf('err = %d\n', err);
+
+endfunction
