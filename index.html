@@ -34,64 +34,33 @@
           <h1>
 <a name="opensauce" class="anchor" href="#opensauce"><span class="octicon octicon-link"></span></a>OpenSauce</h1>
 
-<p>This version of <a href="http://www.seas.ucla.edu/spapl/voicesauce/">VoiceSauce</a> is compatible with GNU Octave, knock on wood. More documentation to come.</p>
+<p>OpenSauce is a MATLAB-free edition of <a href="http://www.seas.ucla.edu/spapl/voicesauce/">VoiceSauce</a>, software for automated voice measurements, which is compatible with GNU Octave (knock on wood). More documentation to come.</p>
 
 <h2>
-<a name="running-opensauce-on-wav-files" class="anchor" href="#running-opensauce-on-wav-files"><span class="octicon octicon-link"></span></a>Running OpenSauce on *.wav files</h2>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<ul>
+<li><a href="https://www.gnu.org/software/octave/">GNU Octave</a></li>
+<li>Currently, OpenSauce only works on Mac OSX (tested on Mountain Lion)</li>
+<li>You may need to install <a href="http://www.activestate.com/activetcl">Tcl/Tk</a>
+</li>
+</ul><h2>
+<a name="running-opensauce-on-a-batch-of-wav-files" class="anchor" href="#running-opensauce-on-a-batch-of-wav-files"><span class="octicon octicon-link"></span></a>Running OpenSauce on a batch of *.wav files</h2>
 
 <ol>
 <li>Check settings/getSettings.m</li>
 <li>Check params/getParameters.m</li>
 <li>Check settings/getOutputSettings.m</li>
 <li>
-<p>Use the command</p>
+<p>Use the command:</p>
 
 <p>$ octave -qf sauce.m [wavdir] [matdir]</p>
 
 <p>Where [wavdir] is the directory where your *.wav files are stored and [outdir] is the directory where you'd like VoiceSauce to store the resulting *.mat files. "-qf" suppresses the Octave startup message.</p>
 </li>
-</ol><p>The command above carries out all calculations specified in getParameters.m and then runs OutputToText on the resulting *.mat files.</p>
+</ol><p>PLEASE NOTE that [wavdir] and [matdir] need to be absolute paths (e.g. "/Users/johndoe/wavfiles" or "~/wavfiles" rather than "../wavfiles").</p>
 
-<h2>
-<a name="issues" class="anchor" href="#issues"><span class="octicon octicon-link"></span></a>Issues</h2>
-
-<ul>
-<li>STRAIGHT doesn't work (because it relies on p files)</li>
-<li>Calculating "H1, H2, H3" takes a very long time</li>
-<li>Resampling to 16 kHz is not yet implemented</li>
-<li>Outputting to text with "useSegments = 0" (i.e. complete dump without segments) takes a very long time</li>
-<li>Octave may throw some warnings that you wouldn't see if you were using MATLAB. Running Octave with the "--braindead" option helps some.</li>
-</ul><h2>
-<a name="folder-structure" class="anchor" href="#folder-structure"><span class="octicon octicon-link"></span></a>Folder structure</h2>
-
-<ul>
-<li>vs-octave
-
-<ul>
-<li>sauce.m - script that runs batch_process then OutputToText</li>
-<li>algos/ - folder where all of the measurement algorithms are stored
-
-<ul>
-<li>wrappers/ - interfaces into each of the measurement methods stored here (e.g. doStraight.m, etc.)</li>
-<li>functions/ - implementations of each of the measurement methods stored here (e.g. func_getStraight.m, etc.)</li>
-</ul>
-</li>
-<li>optim-1.2.2/ - source code for a slightly-modified version of Octave's optim package (for fminsearch.m, etc.)</li>
-<li>bin/ - folder where VoiceSauce.m and other executables are stored; main interface into the program</li>
-<li>params/ - folder where parameter files are stored</li>
-<li>settings/ - folder where settings files are stored</li>
-<li>sys/ - folder where main functions are stored (batch_process.m, OutputToText.m)
-
-<ul>
-<li>helpers/ - misc helper functions</li>
-<li>MacOS/ - just has the Praat binary (used in PraatPitch and Praat Formants)</li>
-<li>Windows/ - stores *.praat scripts used for PraatPitch and Praat Formants. may want to move somewhere else later.</li>
-</ul>
-</li>
-<li>tests/ - tests for main pieces of functionality</li>
-</ul>
-</li>
-</ul>
+<p>The command above carries out all calculations specified in getParameters.m and then runs OutputToText on the resulting *.mat files.</p>
         </section>
 
         <footer>
