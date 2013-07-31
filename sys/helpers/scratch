@@ -1,0 +1,19 @@
+		% #printf('C{k}=%s\n', C{k});
+		% #[s, e, te, m, t, nm, sp] = regexp(C{k}, '\s*(\w+.+)[=](.+\w+["]*)\S+$');
+		% #[s, e, te, m, t, nm, sp] = regexp(C{k}, '\s*(\w+.*)=.*(\d+)|([.\d]+)|(["]?\w+\s*\w*["]?)');
+		% #[m, t] = regexp(C{k}, '\s*(\w+.*)=.*(\d+)|([.\d]+)|(["]?\w+\s*\w*["]?)', 'match', 'tokens');
+
+
+
+
+
+		% [m, t] = regexp(C{k}, '\s*(\w+.*)=.*(["]\w+\s*\w*["])', 'match', 'tokens'); #filetype, objclass, clss, name, text
+
+
+		% if (~isempty(m))
+		% 	printf('C{K} = %s\n', C{k});
+		% 	printf('len(t) = %d\n', length(t));
+		% 	t = t{1};
+		% 	printf('%s\n', t{1});
+		% 	printf('%s\n', t{2});
+		% end
