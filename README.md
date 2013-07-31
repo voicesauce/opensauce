@@ -1,9 +1,8 @@
-# Octave-VoiceSauce
+# OpenSauce
 
-This version of VoiceSauce is compatible with GNU Octave, knock on wood.
+This version of [VoiceSauce](http://www.seas.ucla.edu/spapl/voicesauce/) is compatible with GNU Octave, knock on wood. Hence the name change.
 
-- - - - - - - - - - - - - - - - - -
-## Running VoiceSauce on *.wav files
+## Running OpenSauce on *.wav files
 
 1. Check settings/getSettings.m
 2. Check params/getParameters.m
@@ -15,16 +14,15 @@ This version of VoiceSauce is compatible with GNU Octave, knock on wood.
 	Where [wavdir] is the directory where your *.wav files are stored and [outdir] is the directory where you'd like VoiceSauce to store the resulting *.mat files. "-qf" suppresses the Octave startup message.
 
 The command above carries out all calculations specified in getParameters.m and then runs OutputToText on the resulting *.mat files.
-- - - - - - - - - - - - - - - - - -
+
 ## Issues
 * STRAIGHT doesn't work (because it relies on p files)
 * Calculating "H1, H2, H3" takes a very long time
 * Resampling to 16 kHz is not yet implemented
 * Outputting to text with "useSegments = 0" (i.e. complete dump without segments) takes a very long time
 * Octave may throw some warnings that you wouldn't see if you were using MATLAB. Running Octave with the "--braindead" option helps some.
-- - - - - - - - - - - - - - - - - -
-## Folder structure
 
+## Folder structure
 * vs-octave
 	* sauce.m - script that runs batch_process then OutputToText
 	* algos/ - folder where all of the measurement algorithms are stored
@@ -39,4 +37,3 @@ The command above carries out all calculations specified in getParameters.m and 
 		* MacOS/ - just has the Praat binary (used in PraatPitch and Praat Formants)
 		* Windows/ - stores *.praat scripts used for PraatPitch and Praat Formants. may want to move somewhere else later.
 	* tests/ - tests for main pieces of functionality
-- - - - - - - - - - - - - - - - - -
