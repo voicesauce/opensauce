@@ -10,12 +10,6 @@ function [SHR,F0,err]=func_GetSHRP(y,Fs, variables, datalen)
 % by Yen-Liang Shue for func_PraatPitch.m
 
 
-% --- KS NOTES ---
-% added err return so that we can catch errors if they happen--however,
-% err never has a chance to get set and shrp.m is confusing as heck. so
-% this is another TODO.
-
-
 %%%%%%%%%%% Get/set arguments to shrp.m
 
 % TESTING
