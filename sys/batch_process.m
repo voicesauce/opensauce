@@ -19,6 +19,8 @@ function [instance_data, err] = batch_process(indir, outdir)
     % USER SETTINGS
     % corresponds to VoiceSauce Settings options (hereafter referred to as "user settings")
     % - - - - - - - - - - - - - - - - - - - - - %
+    % wereChecked = checkSettings();
+    % assert (wereChecked == 0, 'You should really check the settings first.');
     settings = getSettings();
     frameshift = settings.frameshift; % used to calculate data_len
 
@@ -229,6 +231,16 @@ function [instance_data, err] = batch_process(indir, outdir)
     printf('\nBatch processing complete.\n');
     assert (err == 0, 'something went wrong');
     res = 0;
+end
+
+function result = checkSettings()
+    fflush(stdout);
+    st = input ('Did you check the settings? [Y/n] ', 's');
+    if (strcmp(st, 'Y') == 1)
+        result = 0;
+    else
+        result = 1;
+    end
 end
 
 % Function to generate random file names

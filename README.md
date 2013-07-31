@@ -8,14 +8,15 @@ OpenSauce is a MATLAB-free edition of [VoiceSauce](http://www.seas.ucla.edu/spap
 * You may need to install [Tcl/Tk](http://www.activestate.com/activetcl)
 
 ## Running OpenSauce on a batch of *.wav files
+0. Download OpenSauce, unpack it, and cd in.
 1. Check settings/getSettings.m
 2. Check params/getParameters.m
 3. Check settings/getOutputSettings.m
 4. Use the command:
 
-	$ octave -qf sauce.m [wavdir] [matdir]
+$ octave -qf sauce.m [wavdir] [matdir]
 
-	Where [wavdir] is the directory where your *.wav files are stored and [outdir] is the directory where you'd like VoiceSauce to store the resulting *.mat files. "-qf" suppresses the Octave startup message.
+Where [wavdir] is the directory where your *.wav files are stored and [outdir] is the directory where you'd like VoiceSauce to store the resulting *.mat files. "-qf" suppresses the Octave startup message.
 
 PLEASE NOTE that [wavdir] and [matdir] need to be absolute paths (e.g. "/Users/johndoe/wavfiles" or "~/wavfiles" rather than "../wavfiles").
 
