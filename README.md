@@ -1,6 +1,6 @@
 # OpenSauce
 
-This version of [VoiceSauce](http://www.seas.ucla.edu/spapl/voicesauce/) is compatible with GNU Octave, knock on wood. Hence the name change.
+This version of [VoiceSauce](http://www.seas.ucla.edu/spapl/voicesauce/) is compatible with GNU Octave, knock on wood. More documentation to come.
 
 ## Running OpenSauce on *.wav files
 
