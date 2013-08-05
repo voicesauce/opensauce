@@ -1,6 +1,4 @@
 function [H1, H2, H4, isComplete] = func_GetH1_H2_H4(y, Fs, F0, variables, textgridfile)
-
-    % [H1, H2, H4, isComplete] = func_GetH1_H2_H4(y, Fs, F0, handles, variables, textgridfile)
     % Input:  y, Fs - from wavread
     %         F0 - vector of fundamental frequencies
     %         variables - global settings
@@ -14,7 +12,7 @@ function [H1, H2, H4, isComplete] = func_GetH1_H2_H4(y, Fs, F0, variables, textg
     % Author: Yen-Liang Shue, Speech Processing and Auditory Perception Laboratory, UCLA
     % Copyright UCLA SPAPL 2009
 
-    % Modified by KS 2013-07-16
+    % Modified by KS 2013-08-05
 
     N_periods = variables.Nperiods;
     sampleshift = (Fs / 1000 * variables.frameshift);
@@ -25,8 +23,7 @@ function [H1, H2, H4, isComplete] = func_GetH1_H2_H4(y, Fs, F0, variables, textg
 
     isComplete = 0;
 
-    %if (nargin == 5) % don't use TextGrid
-    if (nargin == 4)
+    if (nargin == 4) % don't use Textgrid
 
         for k=1:length(F0)
             %fprintf('%d of %d\n', k, length(y));
@@ -56,13 +53,6 @@ function [H1, H2, H4, isComplete] = func_GetH1_H2_H4(y, Fs, F0, variables, textg
             end;
 
             yseg = y(ystart:yend)';
-
-    % --- GUI STUFF
-    %         % check if "stop" button has been pressed
-    %         if (~ishandle(handles.figure_MessageBox) || get(handles.figure_MessageBox, 'UserData') == 1)
-    %             return;
-    %         end
-    % ----
             
             [h1, f0] = func_GetHarmonics(yseg, F0_curr, Fs);
             [h2, dummy] = func_GetHarmonics(yseg, 2*F0_curr, Fs);
@@ -143,13 +133,6 @@ function [H1, H2, H4, isComplete] = func_GetH1_H2_H4(y, Fs, F0, variables, textg
                 end;
 
                 yseg = ysegment(ysstart:ysend)';
-
-    % --- GUI STUFF
-    %             % check if "stop" button has been pressed
-    %             if (~ishandle(handles.figure_MessageBox) || get(handles.figure_MessageBox, 'UserData') == 1)
-    %                 return;
-    %             end
-    % ---
                 
                 [h1, f0] = func_GetHarmonics(yseg, F0_curr, Fs);
                 [h2, dummy] = func_GetHarmonics(yseg, 2*F0_curr, Fs);
@@ -176,49 +159,7 @@ end %endfunction
 % % this function is used from 1/8/09 onwards - optimization used
 % %--------------------------------------------------------------------------
 % function [h,fh]=func_GetHarmonics(data,f_est,Fs)
-%     printf('FUNC_GETHARMONICS...\n');
-% % find harmonic magnitudes in dB of time signal x
-% % around a frequency estimate f_est
-% % Fs, sampling rate
-% % x,  input row vector (is truncated to the first 25ms)
-% % df_range, optional, default +-5% of f_est
-
-% df = 0.1;     % search around f_est in steps of df (in Hz)
-% df_range = round(f_est*df); % search range (in Hz)
-
-% f_min = f_est - df_range;
-% f_max = f_est + df_range;
-
-% f = @(x)func_EstMaxVal(x, data, Fs);
-
-
-% options = optimset('Display', 'off');
-% %options = optimset('Display', 'off', 'OutputFcn', []);
-% % fn = fieldnames(options);
-% % for k=1:length(fn)
-% %     printf('opt( %s )\n', fn{k});
-% % end
-% % return;
-
-
-% %[x, val, exitflag, output] = fmincon(f, f_est, [], [], [], [], f_min, f_max, [], options);
-% %[x, val, exitflag, output] = fminsearchbnd(f, f_est, f_min, f_max, options); 
-% [x, val, exitflag, output] = fminsearchbnd(f, f_est, f_min, f_max);
-
-% h = -1 * val;
-% fh = x;
-% end
-
-
-
-% function val = func_EstMaxVal(x, data, Fs)
-% % x is the F0 estimate
-% n = 0:length(data)-1;
-% v = exp(-1i*2*pi*x*n/Fs);
-% val = -1 * 20*log10(abs(data * v'));
-% end
-
-
+% see func_GetHarmonics.m
 
 % This function was used up to 1/8/09
 % %--------------------------------------------------------------------------
