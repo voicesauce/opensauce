@@ -12,6 +12,7 @@ function err = doH1H2H4(settings, instance)
     % instance data
     resampled = instance.resampled;
     matfile = instance.mfile;
+    useTextgrid = instance.useTextgrid;
     textgridfile = instance.textgridfile;
     y = instance.y;
     Fs = instance.Fs;
@@ -22,7 +23,7 @@ function err = doH1H2H4(settings, instance)
 
     F0 = func_parseF0(matdata, F0algorithm);
 
-    if (useTextGrid == 1)
+    if (useTextgrid)
         if (instance.verbose)
             fprintf(' Using Textgrid ');
         end

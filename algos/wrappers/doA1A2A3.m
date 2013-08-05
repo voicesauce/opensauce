@@ -4,12 +4,12 @@ function err = doA1A2A3(settings, instance)
 	% user settings
 	F0algorithm = settings.F0algorithm;
 	FMTalgorithm = settings.FMTalgorithm;
-	useTextGrid = settings.useTextGrid;
 
 	% instance data
 	matfile = instance.mfile;
 	y = instance.y;
 	Fs = instance.Fs;
+	useTextgrid = instance.useTextgrid;
 	textgridfile = instance.textgridfile;
 	
 
@@ -24,7 +24,7 @@ function err = doA1A2A3(settings, instance)
 	F0 = func_parseF0(matdata, F0algorithm);
 	[F1, F2, F3] = func_parseFMT(matdata, FMTalgorithm);
 
-	if (useTextGrid)
+	if (useTextgrid)
 		if (instance.verbose)
 			fprintf(' Using Textgrid ');
 		end
