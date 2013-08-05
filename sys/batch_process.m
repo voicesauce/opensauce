@@ -3,43 +3,15 @@ function [instance_data, err] = batch_process(indir, outdir)
     % Indir = directory where wav files are stored
     % Outdir = directory where you want to store resulting mat & text files
 
-    % TODO
-    % - need to test how it works re: directory structures
-    % - need to test on PC
-
-    % TODO
-    % separate user settings from settings that get assigned during batch
-    % process
-
-    % TODO
-    % add 'check settings' method to make sure everything is valid
-    % add 'check params' method to make sure everything is valid
-
     % - - - - - - - - - - - - - - - - - - - - - %
     % USER SETTINGS
-    % corresponds to VoiceSauce Settings options (hereafter referred to as "user settings")
     % - - - - - - - - - - - - - - - - - - - - - %
-    % wereChecked = checkSettings();
-    % assert (wereChecked == 0, 'You should really check the settings first.');
     settings = getSettings();
-    frameshift = settings.frameshift; % used to calculate data_len
 
     % - - - - - - - - - - - - - - - - - - - - - %
     % PARAMETER SELECTION
-    % corresponds to what you would select in VoiceSauce "Parameter Selection" window
-    % you can change these by opening params/getParameterSelection.m
     % - - - - - - - - - - - - - - - - - - - - - %
     selection = getParameterSelection(); % parameters selected for estimation
-
-
-    % - - - - - - - - - - - - - - - - - - - - - %
-    % OPTIONS
-    % these correspond to the checkboxes in the main Parameter Estimation window
-    % showWaveForm = settings.showWaveForm; % FIXME
-    % - - - - - - - - - - - - - - - - - - - - - %
-    showWaveForm = settings.showWaveForm;
-    %useTextGrid = settings.useTextGrid;
-    process16khz = settings.process16khz;
 
     % for debugging
     verbose = settings.verbose;
@@ -47,9 +19,6 @@ function [instance_data, err] = batch_process(indir, outdir)
 
     % - - - - - - - - - - - - - - - - - - - - - %
     % FIND AND CHECK INPUT *.WAV FILES
-    % FIXME: should probably just convert all paths to absolute rather 
-    % than relative here instead of later; also should check existence of
-    % of wavfiles and matfiles
 
     % check to make sure that indir and outdir were both passed in as absolute
     % file paths (e.g. '/Users/kate/path-to-wavfiles')
@@ -83,8 +52,9 @@ function [instance_data, err] = batch_process(indir, outdir)
     end
 
     numwavfiles = length(filelist);
-    %addpath(indir); % add input wav directory to MATLAB search path
 
+    wavdir = indir;
+    matdir = outdir;
 
     % check if the matfile directory actually exists; if it doesn't, 
     % create a new directory to store resulting .mat files
@@ -93,23 +63,6 @@ function [instance_data, err] = batch_process(indir, outdir)
         mkdir(outdir);
     end
 
-    instance_data.wavdir = indir;
-    instance_data.matdir = outdir;
-
-    % % build the list of files to process
-    % dirlisting = dir(fullfile(indir, '*.wav'));
-    % n = length(dirlisting);
-    % filelist = cell(1, n);
-
-    % for k=1:n
-    %     filelist{k} = dirlisting(k).name;
-    % end
-
-    % numwavfiles = length(filelist);
-
-    % X = sprintf('Batch processing [%d] *.wav files in [%s]', numwavfiles, indir);
-    % disp(X)
-
     % - - - - - - - - - - - - - - - - - - - - - %
     % - - - - - - - MAIN LOOP - - - - - - - - - %
     % - - - - - - - - - - - - - - - - - - - - - %
@@ -117,9 +70,8 @@ function [instance_data, err] = batch_process(indir, outdir)
     for k=1:numwavfiles
         printf('\nProcessing file [%s]: ', filelist{k});
         
-        wavfile = [instance_data.wavdir '/' filelist{k}];
-        mfile = [instance_data.matdir '/' filelist{k}(1:end-3) 'mat'];
-        %textgridfile = [filelist{k}(1:end-3) 'Textgrid'];
+        wavfile = [wavdir '/' filelist{k}];
+        mfile = [matdir '/' filelist{k}(1:end-3) 'mat'];
 
         % check that wavfile actually exists
         if (exist(wavfile, 'file') == 0)
@@ -127,55 +79,36 @@ function [instance_data, err] = batch_process(indir, outdir)
             err = 1; instance_data = NaN;
             return;
         end
-        
-        % strip down the matfile and check if the directory exists
-        mdir = fileparts(mfile);
-        if (exist(mdir, 'dir') ~= 7)
-            mkdir(mdir);
-        end
-        
-        % check to see if we're showing the waveforms
-        if (showWaveForm == 1)
-            disp('plotting waveform (placeholder)');
-            % TODO: plotCurrentWav(wavfile);
-        end
-
+                
         % if we're using TextGrids, check to see whether the textgridfile exists
         textgrid_dir = settings.textgrid_dir; % user-specified
         textgridfile = [filelist{k}(1:end-3) 'Textgrid']; % build filename based on wavfile name
-        useTextGrid = settings.useTextGrid; % whether or not the user specified this
+        useTextgrid = settings.useTextGrid; % whether or not the user specified this
 
-        instance_data.textgridfile = ''; % initialize field
-        instance_data.textgrid_dir = textgrid_dir;
-        instance_data.useTextGrid = useTextGrid;
-
-        if (useTextGrid == 1)
+        if (useTextgrid == 1)
             if (strcmp(textgrid_dir, '') == 1)
                 if (verbose)
-                    fprintf('Textgrid dir empty, default to [%s]\n', instance_data.wavdir);
+                    fprintf('Textgrid dir empty, default to [%s]\n', wavdir);
                 end
-                textgrid_dir = instance_data.wavdir; % if no textgrid directory is empty in settings, default is wavdir
+                textgrid_dir = wavdir; % if no textgrid directory is empty in settings, default is wavdir
             end
 
             textgridfile = [textgrid_dir '/' textgridfile];
             
             if (verbose)
-                fprintf('Checked for existence of Textgrid file [%s]\n', textgridfile);
+                fprintf('Checking for existence of Textgrid file [%s]\n', textgridfile);
             end
 
             if (exist(textgridfile, 'file') == 0)
-                instance_data.textgridfile = '';
-                instance_data.useTextGrid = 0;
-            else
-                instance_data.textgrid_dir = textgrid_dir;
-                instance_data.textgridfile = textgridfile;
+                textgridfile = '';
+                useTextgrid = 0;
             end
         end
     
 
         if (verbose)
             fprintf('\n\n\t[bp line 75]\n\twavfile = %s\n\tmatfile = %s\n\ttextgridfile = %s\n', wavfile, mfile, textgridfile);
-            fprintf('textgrid_dir = %s\n\n', instance_data.textgrid_dir);
+            fprintf('textgrid_dir = %s\n\n', textgrid_dir);
         end
         
         % read in the wav file
@@ -189,43 +122,19 @@ function [instance_data, err] = batch_process(indir, outdir)
             y = y(:,1);
         end
         
-        % see if we need to resample to 16 kHz (faster for Straight)
-        % FIXME (need to use "signal" package from Octave Forge for resample())
-        resampled = 0;
-        if (process16khz == 1)
-            fprintf('Resampling to 16 kHz not supported yet.')
-            % if (Fs ~= 16000)
-            %     fprintf('Resampling wavfile to 16 kHz ...')
-            %     y = resample(y, 16000, Fs);
-            %     wavfile = generateRandomFile(wavfile, settings);
-            %     wavfile = [wavfile(1:end-4) '_16kHz.wav'];
-            %     wavwrite(y, 16000, nbits, wavfile);
-            %     resampled = 1;
-            % end
-            % [y, Fs] = wavread(wavfile); %reread the resampled file
-        end
-        
         % calculate the length of data vectors - all measures will have this
         % length - important!
-        data_len = floor(length(y) / Fs * 1000 / frameshift);
+        data_len = floor(length(y) / Fs * 1000 / settings.frameshift);
 
         % - - - - - - - - - - - - - - - - - - - - - %
-        % Store instance data in a struct so that we can pass it
-        % around persisently
-        instance_data.wavfile = wavfile;
-        instance_data.mfile = mfile;
-        instance_data.data_len = data_len;
-        instance_data.Fs = Fs;
-        instance_data.y = y;
-        instance_data.nbits = nbits;
-        instance_data.resampled = resampled;
-        instance_data.verbose = verbose;
+        % Store instance data in a struct
+        resampled = 0; %FIXME -- need to get resample to 16 kHx working
+        instance_data = build_instance(wavdir, wavfile, matdir, mfile, textgrid_dir, textgridfile, useTextgrid, y, Fs, nbits, data_len, resampled, verbose);
         % - - - - - - - - - - - - - - - - - - - - - %
         
         % parse the parameter list to get proper ordering
         % paramlist corresponds to parameters selected from Parameter
         % Estimation > Parameter Selection box
-        % selection = getParameterSelection();
         paramlist = func_myParseParameters(selection, settings, mfile, data_len);
         n = length(paramlist);
         
@@ -240,9 +149,6 @@ function [instance_data, err] = batch_process(indir, outdir)
             delete(wavfile);
         end
 
-        % if (oldOpt ~= settings.useTextGrid)
-        %     settings.useTextGrid = oldOpt;
-        % end
     end % END MAIN LOOP
 
     printf('\nBatch processing complete.\n');
@@ -250,15 +156,23 @@ function [instance_data, err] = batch_process(indir, outdir)
     res = 0;
 end
 
-function result = checkSettings()
-    fflush(stdout);
-    st = input ('Did you check the settings? [Y/n] ', 's');
-    if (strcmp(st, 'Y') == 1)
-        result = 0;
-    else
-        result = 1;
-    end
+
+function instance = build_instance(wavdir, wavfile, matdir, matfile, textgrid_dir, textgridfile, useTextgrid, y, Fs, nbits, data_len, resampled, verbose)
+    instance.wavdir = wavdir;
+    instance.wavfile = wavfile;
+    instance.matdir = matdir;
+    instance.mfile = matfile;
+    instance.textgrid_dir = textgrid_dir;
+    instance.textgridfile = textgridfile;
+    instance.useTextgrid = useTextgrid;
+    instance.y = y;
+    instance.Fs = Fs;
+    instance.nbits = nbits;
+    instance.data_len = data_len;
+    instance.resampled = resampled;
+    instance.verbose = verbose;
 end
+
 
 % Function to generate random file names
 function filename = generateRandomFile(fname, settings)
@@ -280,31 +194,6 @@ function filename = generateRandomFile(fname, settings)
         end
     end
 end %endfunction
-
-% unused (need to fix)
-function updateSettings(settings, wavfile, matfile, textgridfile, data_len, y, Fs, nbits)
-settings.wavfile = wavfile;
-settings.matfile = matfile;
-settings.textgridfile = textgridfile;
-settings.data_len = data_len;
-settings.y = y;
-settings.Fs = Fs;
-settings.nbits = nbits;
-end
-
-
-% --- plots the current wavfile
-function plotCurrentWav(wavfile)
-% get the present file selected
-disp('plotCurrentWav called!')
-[y,Fs] = wavread(wavfile);
-t = linspace(0, length(y)/Fs*1000, length(y));
-plot(t,y);
-ylabel('Amplitude');
-xlabel('Time (ms)');
-axis('tight');
-title(wavfile);
-end
 
 
 
