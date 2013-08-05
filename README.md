@@ -3,7 +3,7 @@
 OpenSauce is a MATLAB-free edition of [VoiceSauce](http://www.seas.ucla.edu/spapl/voicesauce/), software for automated voice measurements, which is compatible with GNU Octave (knock on wood). More documentation to come.
 
 ## Requirements
-* [GNU Octave](https://www.gnu.org/software/octave/)
+* [GNU Octave](https://www.gnu.org/software/octave/) -- make sure you have the latest version (3.6.4)
 * Currently, OpenSauce only works on Mac OSX (tested on Mountain Lion)
 * You may need to install [Tcl/Tk](http://www.activestate.com/activetcl)
 
