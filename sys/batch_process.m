@@ -38,7 +38,7 @@ function [instance_data, err] = batch_process(indir, outdir)
     % showWaveForm = settings.showWaveForm; % FIXME
     % - - - - - - - - - - - - - - - - - - - - - %
     showWaveForm = settings.showWaveForm;
-    useTextGrid = settings.useTextGrid;
+    %useTextGrid = settings.useTextGrid;
     process16khz = settings.process16khz;
 
     % for debugging
@@ -119,7 +119,7 @@ function [instance_data, err] = batch_process(indir, outdir)
         
         wavfile = [instance_data.wavdir '/' filelist{k}];
         mfile = [instance_data.matdir '/' filelist{k}(1:end-3) 'mat'];
-        textgridfile = [filelist{k}(1:end-3) 'Textgrid'];
+        %textgridfile = [filelist{k}(1:end-3) 'Textgrid'];
 
         % check that wavfile actually exists
         if (exist(wavfile, 'file') == 0)
@@ -139,26 +139,43 @@ function [instance_data, err] = batch_process(indir, outdir)
             disp('plotting waveform (placeholder)');
             % TODO: plotCurrentWav(wavfile);
         end
-        
+
         % if we're using TextGrids, check to see whether the textgridfile exists
-        oldOpt = settings.useTextGrid;
+        textgrid_dir = settings.textgrid_dir; % user-specified
+        textgridfile = [filelist{k}(1:end-3) 'Textgrid']; % build filename based on wavfile name
+        useTextGrid = settings.useTextGrid; % whether or not the user specified this
+
+        instance_data.textgridfile = ''; % initialize field
+        instance_data.textgrid_dir = textgrid_dir;
+        instance_data.useTextGrid = useTextGrid;
+
         if (useTextGrid == 1)
-            textgrid_dir = settings.textgrid_dir;
             if (strcmp(textgrid_dir, '') == 1)
-                textgrid_dir = instance_data.wavdir; % if no textgrid directory is specified in settings, default is wav directory
+                if (verbose)
+                    fprintf('Textgrid dir empty, default to [%s]\n', instance_data.wavdir);
+                end
+                textgrid_dir = instance_data.wavdir; % if no textgrid directory is empty in settings, default is wavdir
             end
+
             textgridfile = [textgrid_dir '/' textgridfile];
-            if (exist(textgridfile, 'file'))
-                instance_data.textgridfile = textgridfile;
-            else
+            
+            if (verbose)
+                fprintf('Checked for existence of Textgrid file [%s]\n', textgridfile);
+            end
+
+            if (exist(textgridfile, 'file') == 0)
                 instance_data.textgridfile = '';
+                instance_data.useTextGrid = 0;
+            else
                 instance_data.textgrid_dir = textgrid_dir;
-                settings.useTextGrid = 0;
+                instance_data.textgridfile = textgridfile;
             end
         end
+    
 
         if (verbose)
-            fprintf('\n\n\t[bp line 75]\n\twavfile = %s\n\tmatfile = %s\n\ttextgridfile = %s\n\n', wavfile, mfile, textgridfile);
+            fprintf('\n\n\t[bp line 75]\n\twavfile = %s\n\tmatfile = %s\n\ttextgridfile = %s\n', wavfile, mfile, textgridfile);
+            fprintf('textgrid_dir = %s\n\n', instance_data.textgrid_dir);
         end
         
         % read in the wav file
@@ -223,9 +240,9 @@ function [instance_data, err] = batch_process(indir, outdir)
             delete(wavfile);
         end
 
-        if (oldOpt ~= settings.useTextGrid)
-            settings.useTextGrid = oldOpt;
-        end
+        % if (oldOpt ~= settings.useTextGrid)
+        %     settings.useTextGrid = oldOpt;
+        % end
     end % END MAIN LOOP
 
     printf('\nBatch processing complete.\n');
