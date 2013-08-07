@@ -78,6 +78,7 @@ function [H1, H2, H4, isComplete] = func_GetH1_H2_H4(y, Fs, F0, variables, textg
         for k=1:length(variables.TextgridTierNumber)
             inx = variables.TextgridTierNumber(k);
             if (inx <= length(labels))
+                %labels_tmp = [labels_tmp; labels{inx}];
                 labels_tmp = [labels{inx}];
                 start_tmp = [start_tmp; start{inx}];
                 stop_tmp = [stop_tmp; stop{inx}];
