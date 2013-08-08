@@ -1,13 +1,13 @@
 function settings = getSettings()
 	% The settings struct corresponds to options in "Settings" window of VoiceSauce
-	settings.verbose = 0;
+	settings.verbose = 2;
 
 	% TEXTGRID FILE DIRECTORY
 	% (if nothing specified, defaults to same directory as wav files)
 	settings.textgrid_dir = ''; 
 
 	% checkbox options
-	settings.useTextGrid = 1;
+	settings.useTextGrid = 0;
 	settings.process16khz = 0; % FIXME
 	settings.showWaveForm = 0; % not implemented
 
