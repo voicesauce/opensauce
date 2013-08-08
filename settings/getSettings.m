@@ -1,6 +1,6 @@
 function settings = getSettings()
 	% The settings struct corresponds to options in "Settings" window of VoiceSauce
-	settings.verbose = 0;
+	settings.verbose = 2;
 
 	% TEXTGRID FILE DIRECTORY
 	% (if nothing specified, defaults to same directory as wav files)
@@ -66,7 +66,7 @@ function settings = getSettings()
 	% -------- Common
 	settings.windowsize = 25;
 	settings.frameshift = 1; % def 1
-	settings.NotANumber = '0';
+	settings.NotANumber = 'NA';
 	settings.Nperiods = 3; % no. periods for harmonic estimation
 	settings.Nperiods_EC = 5; % no. periods for energy, CPP, HNR est (?)
 	% TODO: checkboxes -- Recurse sub-directories, link mat directories, link wav

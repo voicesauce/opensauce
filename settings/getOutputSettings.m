@@ -4,7 +4,7 @@ function os  =  getOutputSettings()
 
 % directory where output will be stored
 % if none specified, default is same directory as wav files
-os.OT_outputdir = '~/vs-oct';
+os.OT_outputdir = '~/test-sounds/analysis';
 
 % directory where textgrid files are stored
 %os.OT_Textgriddir = '~/vs-oct';
@@ -13,8 +13,8 @@ os.OT_outputdir = '~/vs-oct';
 % os.OT_matdir = '~/vs-oct';
 
 % toggle "output as single file"
-os.asSingleFile = 1;
-os.OT_Single = 'oct_output.csv'; % output filename for single-file-dump (used iff asSingleFile == 1)
+os.asSingleFile = 0;
+os.OT_Single = 'octave_output.csv'; % output filename for single-file-dump (used iff asSingleFile == 1)
 
 % toggle outputting with / without segments
 os.useSegments = 1;
@@ -42,11 +42,14 @@ os.OT_Hx_Axfilename = 'HA.csv';
 os.OT_HxHxfilename = 'HxHx.csv';
 os.OT_HxAxfilename = 'HxAx.csv';
 os.OT_EGGfilename = 'EGG.csv';
-os.OT_F0CPPE = 'F0_CPP_E_HNR.csv';
-os.OT_Formants = 'Formants.csv';
-os.OT_HA = 'HA.csv';
-os.OT_HxHx = 'HxHx.csv';
-os.OT_HxAx = 'HxAx.csv';
+
+% -- these are the filenames we actually use -- %
+os.OT_F0CPPE = 'F0_CPP_E_HNR-OCT.csv';
+os.OT_Formants = 'Formants-OCT.csv';
+os.OT_HA = 'HA-OCT.csv';
+os.OT_HxHx = 'HxHx-OCT.csv';
+os.OT_HxAx = 'HxAx-OCT.csv';
+
 os.O_smoothwinsize = 20; % 0 denotes no smoothing
 
 end

@@ -54,8 +54,9 @@ function [H1, H2, H4, isComplete] = func_GetH1_H2_H4(y, Fs, F0, variables, textg
 
             yseg = y(ystart:yend)';
             
+            % what are f0, dummpy for? FIXME?
             [h1, f0] = func_GetHarmonics(yseg, F0_curr, Fs);
-            [h2, dummy] = func_GetHarmonics(yseg, 2*F0_curr, Fs);
+            [h2, dummy] = func_GetHarmonics(yseg, 2*F0_curr, Fs); 
             [h4, dummy] = func_GetHarmonics(yseg, 4*F0_curr, Fs);
 
             H1(k) = h1;
