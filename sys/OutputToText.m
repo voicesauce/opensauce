@@ -94,6 +94,9 @@ function res = OutputToText(instance)
 	for k=1:M
 		matfile = [matdir dirdelim matfiles{k}];
 		textgridfile = [instance.textgrid_dir dirdelim matfiles{k}(1:end-3) 'Textgrid'];
+		if (verbose == 2)
+			fprintf('\t!!! textgridfile = [ %s ]', textgridfile);
+		end
 		
 		printf('\n\tProcessing [ %s ] ... \n', matfile);
 		
@@ -120,13 +123,13 @@ function res = OutputToText(instance)
 
 		% load up the textgrid data, or if it doesn't exist, use the whole file
 		if (exist(textgridfile, 'file') == 0) % file not found, use start and end
-			printf('\t ==> No TextGrid file found, using all data points...\n');
+			fprintf('\t ==> No TextGrid file [ %s ] found, using all data points...\n');
 			start = 1;
 			stop = maxlen;
 			labels = {matfiles{k}};
 
 		else % use textgrid start points
-			printf('\t ==> Using TextGrid file [ %s ] ... ', textgridfile);
+			fprintf('\t ==> Using TextGrid file [ %s ] ... ', textgridfile);
 			ignorelabels = textscan(settings.TextgridIgnoreList, '%s', 'delimiter', ',');
 			ignorelabels = ignorelabels{1};
 
@@ -445,7 +448,10 @@ function writeFileHeaders(fids, paramlist, outs, delimiter, instance)
 
 	for k=1:length(fids)
 		% this should never happen becaused we already checked
-		assert (fids(k) ~= -1, 'Error: writeFileHeaders: fids(%d) == -1', k);
+		% assert (fids(k) ~= -1, 'Error: writeFileHeaders: fids(%d) == -1', k);
+		if (fids(k) == -1)
+			continue;
+		end
 
 		fprintf(fids(k), 'Filename%c', delimiter);
 
