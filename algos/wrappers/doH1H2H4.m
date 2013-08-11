@@ -5,6 +5,9 @@ function err = doH1H2H4(settings, instance)
 
 fprintf('\t==> H1, H2, H4\n');
 
+    start_time = now();
+
+
     % user settings
     useTextGrid = settings.useTextGrid;
     F0algorithm = settings.F0algorithm;
@@ -41,6 +44,11 @@ fprintf('\t==> H1, H2, H4\n');
     end
 
     HF0algorithm = F0algorithm; % ??
+
+    fin = now();
+    elapsed = fin - start_time;
+
+    fprintf('time passed = [ %d ]', elapsed);
 
     % check if process was completed
     if (isComplete == 0)
