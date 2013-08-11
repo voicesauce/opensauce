@@ -24,10 +24,7 @@ function err = doFunction(param, settings, instance_data)
             err = doPraatFormants(settings, instance_data);
             
         case 'H1, H2, H4'
-            start_time = now();
             err = doH1H2H4(settings, instance_data);
-            end_time = now();
-            fprintf('Harmonics finished in [ %.3f ]', end_time - start_time);
 
         case 'A1, A2, A3'
             err = doA1A2A3(settings, instance_data);

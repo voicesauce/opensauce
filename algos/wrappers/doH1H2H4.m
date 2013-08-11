@@ -2,8 +2,8 @@ function err = doH1H2H4(settings, instance)
     % FIXME: this is extremely slow
     % need to clean up fminsearchbnd2 and fminsearch3 (in optim)
     % need to figure out what the bottleneck is
-    
-    fprintf('\n\t ==> H1, H2, H4 ...');
+
+fprintf('\t==> H1, H2, H4\n');
 
     % user settings
     useTextGrid = settings.useTextGrid;
