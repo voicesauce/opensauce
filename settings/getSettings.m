@@ -7,7 +7,7 @@ function settings = getSettings()
 	settings.textgrid_dir = ''; 
 
 	% checkbox options
-	settings.useTextGrid = 0;
+	settings.useTextGrid = 1;
 	settings.process16khz = 0; % FIXME
 	settings.showWaveForm = 0; % not implemented
 
@@ -67,7 +67,7 @@ function settings = getSettings()
 	settings.windowsize = 25;
 	settings.frameshift = 1; % def 1
 	settings.NotANumber = 'NA';
-	settings.Nperiods = 3; % no. periods for harmonic estimation
+	settings.Nperiods = 3; % no. periods for harmonic estimation (DEFAULT = 3)
 	settings.Nperiods_EC = 5; % no. periods for energy, CPP, HNR est (?)
 	% TODO: checkboxes -- Recurse sub-directories, link mat directories, link wav
 	% directories
