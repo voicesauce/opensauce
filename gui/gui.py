@@ -5,6 +5,8 @@ class App:
 
 	def __init__(self, master):
 
+		fields = ["F0", "Formants"]
+
 		self.params = {
 		'F0_Snack': 0,
 		'F0_Praat': 0,
@@ -12,52 +14,63 @@ class App:
 		'Formants_Praat': 0
 		}
 
-		frame = Frame(master, bg="white")
-		frame.pack()
 
-		w = Label(frame, text="Parameter Selection", fg="blue", bg="white", anchor=N, pady=10)
-		w.pack()
+		labelfont = ('helvetica', '14', 'bold')
+		sublabelfont = ('helvetica', '12', 'bold')
+		checkfont = ('helvetica', '9')
 
-		sel_all = Frame(frame, padx=5, pady=10, bd=1, bg="white")
-		sel_all.pack(side=TOP)
-		self.choose_all = Checkbutton(
-			sel_all, text="Select All", bg="white", fg="red", anchor=S, command=self.toggle_all
-			)
-		self.choose_all.pack(side=BOTTOM)
+		mainlabel = Label(master, text='Parameter Selection')
+		mainlabel.config(bg='white', fg='black', font=labelfont, height=3, width=20)
+		mainlabel.pack(expand=YES, fill=BOTH)
 
-		f0_options = Frame(frame, padx=5, pady=10, bd=1, bg="white")
-		f0_options.pack(side=BOTTOM)
-		Label(f0_options, text="F0 Algorithms", bg="white", pady=2).pack()
+		# FIXME: need to disable other checkboxes when this one is selected
+		select_all = Checkbutton(master, text="Choose all", command=self.toggle_all)
+		select_all.config(fg="red", bg="white", font=checkfont, height=3, width=10)
+		select_all.pack(expand=YES, fill=BOTH)
+
+		f0_options = Frame(master)
+		f0_options.config(bg="white")
+		f0_options.pack(expand=YES, fill=BOTH)
+		f0_label = Label(f0_options, text="F0 Algorithms")
+		f0_label.config(bg='white', fg='black', font=sublabelfont, height=3, width=20)
+		f0_label.pack(expand=YES, fill=BOTH)
+
 
 		self.snackpitch = Checkbutton(
-			f0_options, text="F0 (Snack)", bg="white", command=self.toggle_snackpitch
+			f0_options, text="F0 (Snack)", bg="white", font=checkfont, command=self.toggle_snackpitch
 			)
 		self.snackpitch.pack(side=LEFT)
 
 		self.praatpitch = Checkbutton(
-			f0_options, text="F0 (Praat)", bg="white", command=self.toggle_praatpitch
+			f0_options, text="F0 (Praat)", bg="white", font=checkfont, command=self.toggle_praatpitch
 			)
 		self.praatpitch.pack(side=LEFT)
 
 		self.shrpitch = Checkbutton(
-			f0_options, text="F0 (SHR)", bg="white", command=self.toggle_shrpitch
+			f0_options, text="F0 (SHR)", bg="white", font=checkfont, command=self.toggle_shrpitch
 			)
 		self.shrpitch.pack(side=LEFT)
 
-		formant_options = Frame(frame, padx=5, pady=10, bd=1, bg="white")
-		formant_options.pack(side=BOTTOM)
-		Label(formant_options, text="Formant Algorithms", bg="white", pady=2).pack()
+		formant_options = Frame(master)
+		formant_options.config(bg="white")
+		formant_options.pack(expand=YES, fill=BOTH)
+		formant_label = Label(formant_options, text="Formant Algorithms")
+		formant_label.config(bg="white", fg="black", font=sublabelfont, height=3, width=20)
+		formant_label.pack(expand=YES, fill=BOTH)
+
 
 		self.praatformants = Checkbutton(
-			formant_options, text="F1, F2, F3 (Praat)", bg="white", command=self.toggle_praatformants
+			formant_options, text="F1, F2, F3 (Praat)", bg="white", font=checkfont, command=self.toggle_praatformants
 			)
-		self.praatformants.pack()
+		self.praatformants.pack(expand=YES, fill=BOTH)
 
-		actions = Frame(frame, bg="white", bd=1)
-		actions.pack(side=BOTTOM)
+
+		actions = Frame(master)
+		actions.config(bg="white", pady=10)
+		actions.pack(expand=YES, fill=BOTH)
 
 		self.button = Button(
-			actions, text="Quit", fg="red", bg="white", command=frame.quit
+			actions, text="Quit", fg="red", bg="white", command=actions.quit
 			)
 		self.button.pack(side=LEFT)
 
