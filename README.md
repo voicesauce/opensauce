@@ -30,7 +30,7 @@ Where applicable, possible options are specified in the comments.
 
 3. Check settings/getOutputSettings.m. This is where you specify where the text output of OpenSauce's calculations will be stored, as well as other options. For example, to set the directory where you'd like output files to be stored:
 
-		$ emacs sys/getOutputSettings.m
+		$ emacs settings/getOutputSettings.m
 
 		os.OT_outputdir = 'path/to/output/directory'
 
