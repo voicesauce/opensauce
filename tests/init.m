@@ -1,20 +1,48 @@
-function settings = init()
-    wavfile = 'sounds/hmong_f4_40_a.wav';
-    assert (exist(wavfile, 'file') ~= 0, 'no such wavfile %s', wavfile);
-    [y, Fs, nbits] = wavread(wavfile);
-    matfile = 'sounds/hmong_f4_40_a.mat';
+function instance = init()
+    p = genpath('~/vs-octave');
+    addpath(p)
 
     settings = getSettings();
+    wavdir = '~/test-sounds';
+    verbose = settings.verbose;
+    %fprintf('wave directory = %s\n', wavdir);
+
+    wavlist = dir(fullfile(wavdir, '*.wav'));
+    n = length(wavlist);
+    filelist = cell(1, n);
+    for k=1:n
+        filelist{k} = wavlist(k).name;
+    endfor
+
+    wavfile = [wavdir '/' filelist{1}];
+    assert(exist(wavfile, 'file') ~= 0, 'no wavfile');
+    
+    matfile = [wavfile(1:end-3) 'mat'];
+
+    textgridfile = [wavfile(1:end-3), 'Textgrid'];
+    useTextgrid = 0;
+    if (exist(textgridfile, 'file'))
+        useTextgrid = 1;
+    else
+        textgridfile = '';
+    endif
+
+    [y, Fs, nbits] = wavread(wavfile);
 
     data_len = floor(length(y) / Fs * 1000 / settings.frameshift);
 
-    settings.wavfile = wavfile;
-    settings.matfile = matfile;
-    settings.y = y;
-    settings.Fs = Fs;
-    settings.nbits = nbits;
-    settings.data_len = data_len;
+    instance.wavdir = wavdir;
+    instance.wavfile = wavfile;
+    instance.matdir = wavdir;
+    instance.mfile = matfile;
+    instance.textgridfile = textgridfile;
+    instance.useTextgrid = useTextgrid;
+    instance.textgrid_dir = wavdir;
+    instance.data_len = data_len;
+    instance.y = y;
+    instance.Fs = Fs;
+    instance.nbits = nbits;
+    instance.resampled = 0;
+    instance.verbose = verbose;
 
-    err = doSnackPitch(settings);
-    assert (err == 0, 'err in snack pitch');
-end
+endfunction

@@ -53,7 +53,6 @@ function settings = getSettings()
 
 
 	% -------- Formants
-	% Used for parameter estimation:
 	% Options = {Snack, Praat, Other}
 	settings.FMTalgorithm = 'F1, F2, F3, F4 (Snack)';
 
