@@ -1,46 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <title>OpenSauce by voicesauce</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <title>OpenSauce by voicesauce</title>
   </head>
-
   <body>
-    <div id="container">
-      <div class="inner">
+    <div class="wrapper">
+      <header>
+        <h1>OpenSauce</h1>
+        <p>GNU Octave-compatible version of VoiceSauce</p>
 
-        <header>
-          <h1>OpenSauce</h1>
-          <h2>GNU Octave-compatible version of VoiceSauce</h2>
-        </header>
+        <p class="view"><a href="https://github.com/voicesauce/opensauce">View the Project on GitHub <small>voicesauce/opensauce</small></a></p>
 
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/voicesauce/opensauce/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/voicesauce/opensauce/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/voicesauce/opensauce" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
 
-        <hr>
-
-        <section id="main_content">
-          <h1>
+        <ul>
+          <li><a href="https://github.com/voicesauce/opensauce/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/voicesauce/opensauce/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/voicesauce/opensauce">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
 <a name="opensauce" class="anchor" href="#opensauce"><span class="octicon octicon-link"></span></a>OpenSauce</h1>
 
-<p>OpenSauce is a MATLAB-free edition of <a href="http://www.seas.ucla.edu/spapl/voicesauce/">VoiceSauce</a>, software for automated voice measurements, which is compatible with GNU Octave (knock on wood). More documentation to come.</p>
+<p>OpenSauce is an GNU Octave-compatible (knock on wood) edition of <a href="http://www.seas.ucla.edu/spapl/voicesauce/">VoiceSauce</a>, software for automated voice measurements.</p>
 
 <h2>
 <a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
 
 <ul>
-<li><a href="https://www.gnu.org/software/octave/">GNU Octave</a></li>
+<li>
+<a href="https://www.gnu.org/software/octave/">GNU Octave</a> -- make sure you have the latest version (3.6.4)</li>
 <li>Currently, OpenSauce only works on Mac OSX (tested on Mountain Lion)</li>
 <li>You may need to install <a href="http://www.activestate.com/activetcl">Tcl/Tk</a>
 </li>
@@ -48,28 +46,58 @@
 <a name="running-opensauce-on-a-batch-of-wav-files" class="anchor" href="#running-opensauce-on-a-batch-of-wav-files"><span class="octicon octicon-link"></span></a>Running OpenSauce on a batch of *.wav files</h2>
 
 <ol>
-<li>Check settings/getSettings.m</li>
-<li>Check params/getParameters.m</li>
-<li>Check settings/getOutputSettings.m</li>
 <li>
-<p>Use the command:</p>
+<p>Download or "git clone" OpenSauce, unpack it, and change into the "opensauce" directory. For example:</p>
 
-<p>$ octave -qf sauce.m [wavdir] [matdir]</p>
-
-<p>Where [wavdir] is the directory where your *.wav files are stored and [outdir] is the directory where you'd like VoiceSauce to store the resulting *.mat files. "-qf" suppresses the Octave startup message.</p>
+<pre><code>$ git clone https://github.com/voicesauce/opensauce.git
+$ cd /path/to/opensauce
+</code></pre>
 </li>
-</ol><p>PLEASE NOTE that [wavdir] and [matdir] need to be absolute paths (e.g. "/Users/johndoe/wavfiles" or "~/wavfiles" rather than "../wavfiles").</p>
+<li>
+<p>Check settings/getSettings.m. This is where you set global settings like the default F0 estimation algorithm, max/min F0 values, whether or not to use TextGrid information, etc. For example, to change the default F0 algorithm to "Snack":</p>
 
-<p>The command above carries out all calculations specified in getParameters.m and then runs OutputToText on the resulting *.mat files.</p>
-        </section>
+<pre><code>$ emacs settings/getSettings.m
 
-        <footer>
-          OpenSauce is maintained by <a href="https://github.com/voicesauce">voicesauce</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
+change [ settings.F0algorithm = 'F0 (Praat)' ] ==&gt; [ settings.F0algorithm = 'F0 (Snack)' ]
+</code></pre>
+</li>
+</ol><p>Where applicable, possible options are specified in the comments.</p>
 
-        
-      </div>
+<ol>
+<li>
+<p>Check params/getParameterSelection.m. This is where you choose which voice source parameter measurements you'd like OpenSauce to calculate. For example, to select 'CPP':</p>
+
+<pre><code>$ emacs params/getParameterSelection.m
+
+change [ 'CPP' 0; ] ==&gt; [ 'CPP' 1; ]
+</code></pre>
+</li>
+<li>
+<p>Check settings/getOutputSettings.m. This is where you specify where the text output of OpenSauce's calculations will be stored, as well as other options. For example, to set the directory where you'd like output files to be stored:</p>
+
+<pre><code>$ emacs sys/getOutputSettings.m
+
+os.OT_outputdir = 'path/to/output/directory'
+</code></pre>
+</li>
+<li>
+<p>To run OpenSauce, use the command:</p>
+
+<pre><code>$ octave -qf sauce.m [wavdir] [matdir]
+</code></pre>
+</li>
+</ol><p>Where [wavdir] is the directory where your *.wav files are stored and [outdir] is the directory where you'd like VoiceSauce to store the resulting *.mat files. "-qf" suppresses the Octave startup message.</p>
+
+<p>PLEASE NOTE that [wavdir] and [matdir] need to be absolute paths (e.g. "/Users/johndoe/wavfiles" or "~/wavfiles" rather than "../wavfiles").</p>
+
+<p>The command above carries out all calculations specified in getParameterSelection.m, runs OutputToText.m (in sys/) on the resulting *.mat files, and stores the output in the specified directory.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/voicesauce">voicesauce</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
     </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
   </body>
 </html>
