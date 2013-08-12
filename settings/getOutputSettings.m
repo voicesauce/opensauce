@@ -4,7 +4,7 @@ function os  =  getOutputSettings()
 
 % directory where output will be stored
 % if none specified, default is same directory as wav files
-os.OT_outputdir = '~/test/analysis';
+os.OT_outputdir = '~/Public/test/analysis';
 
 % directory where textgrid files are stored
 %os.OT_Textgriddir = '~/vs-oct';
@@ -21,7 +21,7 @@ os.useSegments = 1;
 os.OT_numSegments = 9; % number of segments to use; called iff noSegments == 0
 
 % toggle "include textgrid labels"
-os.OT_includeTextgridLabels = 0;
+os.OT_includeTextgridLabels = 1;
 
 % EGG stuff
 os.OT_includeEGG = 0;
