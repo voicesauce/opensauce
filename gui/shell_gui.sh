@@ -1,11 +1,11 @@
 #!/bin/bash
 
-
-sel=$(dialog --stdout --title "Parameter Selection" \
+sel=$(
+dialog --stdout --title "Parameter Selection" \
     --checklist "Choose F0 alg:" 15 40 5 \
     1 Snack off \
     2 Praat off \
-    3 SHR off)
+    3 SHR off )
 
 case $? in
 0)
