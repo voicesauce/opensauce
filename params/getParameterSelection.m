@@ -8,14 +8,14 @@ function selection = getParameterSelection(param)
 
 
     selection = {
-        'F0 (Straight' 0;
+        %'F0 (Straight' 0;
         'F0 (Snack)' selected.F0_Snack;
         'F0 (Praat)' selected.F0_Praat;
         'F0 (SHR)' selected.F0_SHR;
-        'F0 (Other)' 0;
+        %'F0 (Other)' 0;
         'F1, F2, F3, F4 (Snack)' selected.FMT_Snack;
         'F1, F2, F3, F4 (Praat)' selected.FMT_Praat;
-        'F1, F2, F3, F4 (Other)' 0;
+        %'F1, F2, F3, F4 (Other)' 0;
         'H1, H2, H4' selected.Hx;
         'A1, A2, A3' selected.Ax;
         'H1*-H2*, H2*-H4*' selected.H1H2_H2H4;
