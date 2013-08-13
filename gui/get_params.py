@@ -53,9 +53,9 @@ for k in other_hash.keys():
 	else:
 		selected[k] = 0
 
-for k in selected:
-	print k, selected[k]
+# for k in selected:
+# 	print k, selected[k]
 
-sio.savemat('params.mat', {'params': selected})
+sio.savemat('params/params.mat', {'params': selected})
 
 

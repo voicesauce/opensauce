@@ -25,7 +25,7 @@ dialog \
 
 case $? in
 0)
-echo "$sel" > selection.txt ;;
+echo "$sel" > selection.data ;;
 1)
 echo "Cancelled." ;;
 255)
