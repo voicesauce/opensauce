@@ -7,6 +7,16 @@ OpenSauce is an GNU Octave-compatible (knock on wood) edition of [VoiceSauce](ht
 * Currently, OpenSauce only works on Mac OSX (tested on Mountain Lion)
 * You may need to install [Tcl/Tk](http://www.activestate.com/activetcl)
 
+In order to use the GUI, you'll also need:
+* Python (tested on v2.7)
+* [dialog](http://linux.die.net/man/1/dialog)
+
+If you have [homebrew](http://brew.sh/), you can use "check.sh" to make sure that your system has the required dependencies, i.e.
+
+		$ ./check.sh
+
+Note that you only really need Python and dialog for the GUI functionality.
+
 ## Running OpenSauce on a batch of *.wav files
 0. Download or "git clone" OpenSauce, unpack it, and change into the "opensauce" directory. For example:
 
@@ -21,26 +31,21 @@ OpenSauce is an GNU Octave-compatible (knock on wood) edition of [VoiceSauce](ht
 
 Where applicable, possible options are specified in the comments.
 
-2. Check params/getParameterSelection.m. This is where you choose which voice source parameter measurements you'd like OpenSauce to calculate. For example, to select 'CPP':
-
-		$ emacs params/getParameterSelection.m
-
-		change [ 'CPP' 0; ] ==> [ 'CPP' 1; ]
-
-
-3. Check settings/getOutputSettings.m. This is where you specify where the text output of OpenSauce's calculations will be stored, as well as other options. For example, to set the directory where you'd like output files to be stored:
+2. Check settings/getOutputSettings.m. This is where you specify where the text output of OpenSauce's calculations will be stored, as well as other options. For example, to set the directory where you'd like output files to be stored:
 
 		$ emacs settings/getOutputSettings.m
 
 		os.OT_outputdir = 'path/to/output/directory'
 
-4. To run OpenSauce, use the command:
+3. To run OpenSauce, use the command:
 
 		$ octave -qf sauce.m [wavdir] [matdir]
 
 Where [wavdir] is the directory where your *.wav files are stored and [outdir] is the directory where you'd like VoiceSauce to store the resulting *.mat files. "-qf" suppresses the Octave startup message.
 
+PLEASE NOTE that [wavdir] and [matdir] need to be absolute paths (e.g. "/Users/johndoe/wavfiles" or "~/wavfiles" rather than a relative path like "../wavfiles").
 
-PLEASE NOTE that [wavdir] and [matdir] need to be absolute paths (e.g. "/Users/johndoe/wavfiles" or "~/wavfiles" rather than "../wavfiles").
+The command above carries out all calculations specified in the "Parameter Selection" dialog, runs OutputToText.m (in sys/) on the resulting *.mat files, and then stores the output in the specified directory (the field "os.OT_outputdir" in settings/getOutputSettings.m).
 
-The command above carries out all calculations specified in getParameterSelection.m, runs OutputToText.m (in sys/) on the resulting *.mat files, and stores the output in the specified directory.
+## More Information
+See the [OpenSauce wiki](https://github.com/voicesauce/opensauce/wiki)!
