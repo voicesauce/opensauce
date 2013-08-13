@@ -15,7 +15,6 @@ function new_paramlist = func_myParseParameters(selection, settings, matfile, da
     L = length(selection);
     for k=1:L
         thisParam = selection{k};
-        %fprintf('thisParam = %s', thisParam);
         if (selection{k, 2} == 0)
             continue;
         end
@@ -26,9 +25,6 @@ function new_paramlist = func_myParseParameters(selection, settings, matfile, da
         end
 
         new_param_vec(getParameterSelection(thisParam)) = 1;
-        %F0idx = getParameterSelection(F0algorithm);
-        %FMTidx = getParameterSelection(FMTalgorithm);
-        %fprintf('F0 idx = %d, FMT idx = %d\n', F0_index, FMT_index);
 
         switch thisParam
             case {'F1, F2, F3, F4 (Snack)', 'F1, F2, F3, F4 (Praat)', ...
@@ -56,12 +52,6 @@ function new_paramlist = func_myParseParameters(selection, settings, matfile, da
     if (exist(matfile, 'file'))
         matdata = load(matfile);
         
-        % if (mod(new_param_vec(getParameterSelection('F0 (Straight)')), 2) == 0 && isfield(matdata, 'strF0'))
-        %     if (length(matdata.strF0) == data_len)
-        %         new_param_vec(getParameterSelection('F0 (Straight)')) = 0;
-        %     end
-        % end
-        
         if (mod(new_param_vec(getParameterSelection('F0 (Snack)')), 2) == 0 && isfield(matdata, 'sF0'))
             if (length(matdata.sF0) == data_len)
                 new_param_vec(getParameterSelection('F0 (Snack)')) = 0;
@@ -79,12 +69,6 @@ function new_paramlist = func_myParseParameters(selection, settings, matfile, da
                 new_param_vec(getParameterSelection('F0 (SHR)')) = 0;
             end
         end   
-        
-        % if (mod(new_param_vec(getParameterSelection('F0 (Other)')), 2) == 0 && isfield(matdata, 'oF0'))
-        %     if (length(matdata.sF0) == data_len)
-        %         new_param_vec(getParameterSelection('F0 (Other)')) = 0;
-        %     end
-        % end
             
         if (mod(new_param_vec(getParameterSelection('F1, F2, F3, F4 (Snack)')), 2) == 0 && isfield(matdata, 'sF1'))
             if (length(matdata.sF1) == data_len)
@@ -97,13 +81,7 @@ function new_paramlist = func_myParseParameters(selection, settings, matfile, da
                 new_param_vec(getParameterSelection('F1, F2, F3, F4 (Praat)')) = 0;
             end
         end    
-        
-        % if (mod(new_param_vec(getParameterSelection('F1, F2, F3, F4 (Other)')), 2) == 0 && isfield(matdata, 'oF1'))
-        %     if (length(matdata.sF1) == data_len)
-        %         new_param_vec(getParameterSelection('F1, F2, F3, F4 (Other)')) = 0;
-        %     end
-        % end    
-        
+                
         if (mod(new_param_vec(getParameterSelection('A1, A2, A3')), 2) == 0 && isfield(matdata, 'A1'))
             if (length(matdata.A1) == data_len)
                 new_param_vec(getParameterSelection('A1, A2, A3')) = 0;
@@ -130,5 +108,5 @@ function new_paramlist = func_myParseParameters(selection, settings, matfile, da
             cnt += 1;
         end 
     end
-    
+
 end %endfunction

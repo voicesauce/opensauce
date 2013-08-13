@@ -3,15 +3,15 @@
 sel=$(
 dialog \
     --stdout --keep-window --title "Parameter Selection" --begin 2 2 \
-    --checklist "F0:" 10 40 20 \
+    --checklist "F0 Algorithms:" 10 40 20 \
     1 "F0 (Snack)" off \
     2 "F0 (Praat)" off \
     3 "F0 (SHR)" off \
     --and-widget --clear --begin 2 2 \
-    --checklist "Formants:" 10 40 20 \
+    --checklist "Formant Algorithms:" 10 40 20 \
     1 "F1, F2, F3, F4 (Snack)" off \
     2 "F1, F2, F3, F4 (Praat)" off \
-    --and-widget --clear --begin 4 4 \
+    --and-widget --clear --begin 2 2 \
     --checklist "Other Measurements:" 20 40 20 \
     1 "H1, H2, H4" off \
     2 "A1, A2, A3" off \
@@ -25,7 +25,7 @@ dialog \
 
 case $? in
 0)
-echo "$sel" > selection.data ;;
+echo "$sel" > tmp/selection.data ;;
 1)
 echo "Cancelled." ;;
 255)
