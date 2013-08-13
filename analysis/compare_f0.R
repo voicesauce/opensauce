@@ -1,3 +1,4 @@
+# this script compares f0 output from penguinsweaters ("ps" -- my computer) and vox (the server);
 ps_f0 <- read.csv("ps_f0.csv", header = TRUE)
 vox_f0 <- read.csv("vox_f0.csv", header = TRUE)
 items <- grep("sF0*", names(ps_f0))
