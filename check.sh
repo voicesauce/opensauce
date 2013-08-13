@@ -21,4 +21,14 @@ else
 echo "dialog installed."
 fi
 
+check=$(brew list | grep "python" | wc -l)
+if [ $check -eq 0 ]; then
+	echo "python not installed... brew-installing it..."
+	brew install python
+else
+	echo "python installed."
+fi
+
+
+
 echo "done."
