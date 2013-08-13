@@ -98,7 +98,8 @@ function res = OutputToText(instance)
 			fprintf('\t!!! textgridfile = [ %s ]', textgridfile);
 		end
 		
-		printf('\n\tProcessing [ %s ] ... \n', matfile);
+		fprintf('\n\tProcessing [ %s ] ... ', matfile);
+		fprintf('\t [%d / %d]\n', k, M);
 		
 		mdata = func_buildMData(matfile, ott.O_smoothwinsize); % get parameter data out of matfile (?)
 		frameshift = settings.frameshift;

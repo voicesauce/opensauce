@@ -12,7 +12,7 @@ function [instance_data, err] = batch_process(indir, outdir)
     % PARAMETER SELECTION
     % - - - - - - - - - - - - - - - - - - - - - %
     selection = getParameterSelection(); % parameters selected for estimation
-
+    
     % for debugging
     verbose = settings.verbose;
     err = 0;
@@ -68,7 +68,8 @@ function [instance_data, err] = batch_process(indir, outdir)
     % - - - - - - - - - - - - - - - - - - - - - %
     fprintf('Batch processing [%d] *.wav files in [%s]', numwavfiles, indir);
     for k=1:numwavfiles
-        printf('\nProcessing file [%s]: ', filelist{k});
+        fprintf('\nProcessing file [%s]: ', filelist{k});
+        fprintf('\t [%d / %d]\n', k, numwavfiles);
         
         wavfile = [wavdir '/' filelist{k}];
         mfile = [matdir '/' filelist{k}(1:end-3) 'mat'];
@@ -143,6 +144,7 @@ function [instance_data, err] = batch_process(indir, outdir)
             thisParam = char(paramlist{n});
             err = doFunction(thisParam, settings, instance_data);
         end
+        fprintf('\n');
         
         % delete temp wavfile if it exists
         if(resampled)
