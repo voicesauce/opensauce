@@ -8,8 +8,10 @@ if (nargin == 2)
 	printf('\n ~~~ OpenSauce ~~~ \n\n');
 	indir = arg_list{1};
 	outdir = arg_list{2};
-	unix('gui/shell_gui.sh');
-	unix('python gui/get_params.py');
+	%-- GUI stuff --%
+	% unix('gui/shell_gui.sh');
+	% unix('python gui/get_params.py');
+	% -- -- -- %
 	printf('wav dir: [%s]; mat dir: [%s]\n\n', indir, outdir);
 	VoiceSauce(indir, outdir, 1);
 else

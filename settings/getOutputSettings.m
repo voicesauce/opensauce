@@ -4,7 +4,7 @@ function os  =  getOutputSettings()
 
 % directory where output will be stored
 % if none specified, default is same directory as wav files
-os.OT_outputdir = '~/Public/test/analysis';
+os.OT_outputdir = '~/OPENSAUCE/output';
 
 % directory where textgrid files are stored
 %os.OT_Textgriddir = '~/vs-oct';
