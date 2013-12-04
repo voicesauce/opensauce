@@ -6,11 +6,13 @@ function new_paramlist = func_myParseParameters(selection, settings, matfile, da
 
     F0algorithm = settings.F0algorithm;
     FMTalgorithm = settings.FMTalgorithm;
+    % fprintf('f0: %s fmt: %s \n', F0algorithm, FMTalgorithm);
 
     new_param_vec = zeros(length(selection), 1);
 
     F0idx = getParameterSelection(F0algorithm);
     FMTidx = getParameterSelection(FMTalgorithm);
+    % fprintf('%d %d \n\n', F0idx, FMTidx);
 
     L = length(selection);
     for k=1:L

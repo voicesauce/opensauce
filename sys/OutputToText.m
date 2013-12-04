@@ -4,12 +4,14 @@ function res = OutputToText(instance)
 	verbose = instance.verbose;
 
 	% user settings
-	settings = getSettings();
+	% settings = getSettings();
+	settings = instance.settings;
+	fprintf('%s\n\n', instance.settings.sid);
 
 	% user output settings
 	ott = getOutputSettings();
 
-	output_dir = ott.OT_outputdir; % where *.csv files are going to be stored
+	output_dir = [ott.OT_outputdir, '/', settings.sid, '/']; % where *.csv files are going to be stored
 	if (strcmp('', output_dir) == 1)
 		output_dir = instance.wavdir;
 	elseif (exist(output_dir, 'dir') == 0) % if outdir doesn't exist already, create it

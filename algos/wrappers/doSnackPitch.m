@@ -52,8 +52,10 @@ function err = doSnackPitch(settings, instance)
         return;
     end
     
-    sF0 = [zeros(floor(windowsize/frameshift/2),1)*NaN; sF0]; sF0 = [sF0; ones(data_len-length(sF0), 1)*NaN];
-    sV = [zeros(floor(windowsize/frameshift/2),1)*NaN; sV]; sV = [sV; ones(data_len-length(sV), 1)* NaN];
+    sF0 = [zeros(floor(windowsize/frameshift/2),1)*NaN; sF0]; 
+    sF0 = [sF0; ones(data_len-length(sF0), 1)*NaN];
+    sV = [zeros(floor(windowsize/frameshift/2),1)*NaN; sV]; 
+    sV = [sV; ones(data_len-length(sV), 1)* NaN];
     
     
     if (exist(matfile, 'file'))

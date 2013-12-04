@@ -17,6 +17,8 @@ sampleshift = (Fs / 1000 * variables.frameshift);
 CPP = zeros(length(F0), 1) * NaN;
 
 N_ms = round(Fs / 1000); % Quefrency below 1ms are ignored as per Hillenbrand
+disp('N_ms');
+disp(N_ms);
 
 for k=1:length(F0)
     ks = round(k * sampleshift);

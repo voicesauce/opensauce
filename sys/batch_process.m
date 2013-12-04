@@ -1,4 +1,4 @@
-function [instance_data, err] = batch_process(indir, outdir)
+function [instance_data, err] = batch_process(indir, outdir, settings)
     % Process a batch of wav files.
     % Indir = directory where wav files are stored
     % Outdir = directory where you want to store resulting mat & text files
@@ -6,7 +6,7 @@ function [instance_data, err] = batch_process(indir, outdir)
     % - - - - - - - - - - - - - - - - - - - - - %
     % USER SETTINGS
     % - - - - - - - - - - - - - - - - - - - - - %
-    settings = getSettings();
+    % settings = getSettings();
 
     % - - - - - - - - - - - - - - - - - - - - - %
     % PARAMETER SELECTION
@@ -125,12 +125,12 @@ function [instance_data, err] = batch_process(indir, outdir)
         
         % calculate the length of data vectors - all measures will have this
         % length - important!
-        data_len = floor(length(y) / Fs * 1000 / settings.frameshift);
+        data_len = floor(length(y) / Fs * 1000 / settings.frameshift(1));
 
         % - - - - - - - - - - - - - - - - - - - - - %
         % Store instance data in a struct
         resampled = 0; %FIXME -- need to get resample to 16 kHx working
-        instance_data = build_instance(wavdir, wavfile, matdir, mfile, textgrid_dir, textgridfile, useTextgrid, y, Fs, nbits, data_len, resampled, verbose);
+        instance_data = build_instance(wavdir, wavfile, matdir, mfile, textgrid_dir, textgridfile, useTextgrid, y, Fs, nbits, data_len, resampled, verbose, settings);
         % - - - - - - - - - - - - - - - - - - - - - %
         
         % parse the parameter list to get proper ordering
@@ -159,7 +159,7 @@ function [instance_data, err] = batch_process(indir, outdir)
 end
 
 
-function instance = build_instance(wavdir, wavfile, matdir, matfile, textgrid_dir, textgridfile, useTextgrid, y, Fs, nbits, data_len, resampled, verbose)
+function instance = build_instance(wavdir, wavfile, matdir, matfile, textgrid_dir, textgridfile, useTextgrid, y, Fs, nbits, data_len, resampled, verbose, settings)
     instance.wavdir = wavdir;
     instance.wavfile = wavfile;
     instance.matdir = matdir;
@@ -173,6 +173,7 @@ function instance = build_instance(wavdir, wavfile, matdir, matfile, textgrid_di
     instance.data_len = data_len;
     instance.resampled = resampled;
     instance.verbose = verbose;
+    instance.settings = settings;
 end
 
 
