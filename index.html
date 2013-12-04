@@ -37,22 +37,16 @@
 <a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
 
 <ul>
+<li>Python 2.7</li>
 <li>
 <a href="https://www.gnu.org/software/octave/">GNU Octave</a> -- make sure you have the latest version (3.6.4)</li>
 <li>Currently, OpenSauce only works on Mac OSX (tested on Mountain Lion)</li>
 <li>You may need to install <a href="http://www.activestate.com/activetcl">Tcl/Tk</a>
 </li>
-</ul><p>In order to use the GUI, you'll also need:</p>
-
-<ul>
-<li>Python (tested on v2.7)</li>
-<li><a href="http://linux.die.net/man/1/dialog">dialog</a></li>
 </ul><p>If you have <a href="http://brew.sh/">homebrew</a>, you can use "check.sh" to make sure that your system has the required dependencies, i.e.</p>
 
 <pre><code>    $ ./check.sh
 </code></pre>
-
-<p>Note that you only really need Python and dialog for the GUI functionality.</p>
 
 <h2>
 <a name="running-opensauce-on-a-batch-of-wav-files" class="anchor" href="#running-opensauce-on-a-batch-of-wav-files"><span class="octicon octicon-link"></span></a>Running OpenSauce on a batch of *.wav files</h2>
@@ -65,14 +59,7 @@
 $ cd /path/to/opensauce
 </code></pre>
 </li>
-<li>
-<p>Check settings/getSettings.m. This is where you set global settings like the default F0 estimation algorithm, max/min F0 values, whether or not to use TextGrid information, etc. For example, to change the default F0 algorithm to "Snack":</p>
-
-<pre><code>$ emacs settings/getSettings.m
-
-change [ settings.F0algorithm = 'F0 (Praat)' ] ==&gt; [ settings.F0algorithm = 'F0 (Snack)' ]
-</code></pre>
-</li>
+<li><p>See opensauce/settings/settings_template.csv for an example of a settings file. This file represents the VoiceSauce-default settings. If you're fine using them, just specify opensauce/settings as the [settings-dir].</p></li>
 </ol><p>Where applicable, possible options are specified in the comments.</p>
 
 <ol>
@@ -87,12 +74,12 @@ os.OT_outputdir = 'path/to/output/directory'
 <li>
 <p>To run OpenSauce, use the command:</p>
 
-<pre><code>$ octave -qf sauce.m [wavdir] [matdir]
+<pre><code>$ octave -qf sauce.m [wavdir] [matdir] [settings-dir]
 </code></pre>
 </li>
 </ol><p>Where [wavdir] is the directory where your *.wav files are stored and [outdir] is the directory where you'd like VoiceSauce to store the resulting *.mat files. "-qf" suppresses the Octave startup message.</p>
 
-<p>PLEASE NOTE that [wavdir] and [matdir] need to be absolute paths (e.g. "/Users/johndoe/wavfiles" or "~/wavfiles" rather than a relative path like "../wavfiles").</p>
+<p>PLEASE NOTE that [wavdir], [matdir], and [settings-dir] need to be absolute paths (e.g. "/Users/johndoe/wavfiles" or "~/wavfiles" rather than a relative path like "../wavfiles").</p>
 
 <p>The command above carries out all calculations specified in the "Parameter Selection" dialog, runs OutputToText.m (in sys/) on the resulting *.mat files, and then stores the output in the specified directory (the field "os.OT_outputdir" in settings/getOutputSettings.m).</p>
 
@@ -100,6 +87,8 @@ os.OT_outputdir = 'path/to/output/directory'
 <a name="more-information" class="anchor" href="#more-information"><span class="octicon octicon-link"></span></a>More Information</h2>
 
 <p>See the <a href="https://github.com/voicesauce/opensauce/wiki">OpenSauce wiki</a>!</p>
+
+<p>Questions or bugs? E-mail ksilvers [at] umass.edu</p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/voicesauce">voicesauce</a></p>
