@@ -1,6 +1,7 @@
 % TODO: add check for software dependencies here (i.e. is python installed?)
 
-vs_path = genpath('.');
+root = getenv("SAUCE_ROOT");
+vs_path = genpath(root);
 addpath(vs_path);
 
 arg_list = argv();
@@ -17,7 +18,9 @@ if (nargin == 3)
 	% -- -- -- %
 	printf('wav dir: [%s]; mat dir: [%s]; settings file: [%s]\n\n', indir, outdir, settingsfile);
 	VoiceSauce(indir, outdir, settingsfile);
+	% main(indir, outdir, settingsfile);
 else
 	printf('error: usage: %s', usage);
 	exit(-1);
 end
+
