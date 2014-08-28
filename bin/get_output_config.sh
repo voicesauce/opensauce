@@ -10,12 +10,12 @@
 PROPKEY=$1
 DEFAULT_VALUE=$2
 
-if [ -z "$SAUCE_CONFIG" ]
+if [ -z "$SAUCE_OUTPUT" ]
 then
-  SAUCE_CONFIG=$SAUCE_ROOT/config/sauce.config
+  SAUCE_OUTPUT=$SAUCE_ROOT/config/output.config
 fi
 
-conf=`cat $SAUCE_CONFIG \
+conf=`cat $SAUCE_OUTPUT \
 | awk -v pk=$PROPKEY '$1 == pk { print $2 }'`
 
 if [ -z "$conf" ]

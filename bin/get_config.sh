@@ -12,6 +12,7 @@ DEFAULT_VALUE="${@:2}"
 if [ -z "$SAUCE_CONFIG" ]
 then
   SAUCE_CONFIG=$SAUCE_ROOT/config/sauce.config
+  SAUCE_OUTPUT=$SAUCE_ROOT/config/output.config
 fi
 
 conf=`cat $SAUCE_CONFIG \

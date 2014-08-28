@@ -1,13 +1,10 @@
 #!/usr/bin/make -f
 
-run: settings.mat summary.txt
+CONFIG?=$(SAUCE_ROOT)/config/default.config
+RUNDIR := $(shell SAUCE_CONFIG=$(CONFIG) $(SAUCE_ROOT)/bin/get_expand_config.sh rundir)
 
-# Gets settings from a CSV file and writes them to a MAT file for later
-settings.mat settings:
-	$(SAUCE_ROOT)/bin/settings.sh
-
-summary.txt process: settings.mat
-	$(SAUCE_ROOT)/bin/process.sh
+$(RUNDIR) run: $(CONFIG)
+	$(SAUCE_ROOT)/bin/run.sh $<
 
 clean:
-	rm -r $(SAUCE_ROOT)/runs
+	rm -r $(RUNDIR)
