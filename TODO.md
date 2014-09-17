@@ -1,24 +1,16 @@
-# Bugs
-* STRAIGHT doesn't work
-* "resample to 16 kHz" is not yet implemented
-* various Octave warnings
+TODO
 
-## OutputToText
-* should output only parameters that have been calculated rather than the whole list of all 54 params (this isn't an option yet)
-* "complete dump" is very slow
-* something may be wrong with "use textgrid labels"
-* EGG bug: EGG.csv stored in top folder rather than in data folder
+priorities (Kate):
 
-	## func_readTextGrid
-	* move POINT_BUFFER into settings
-	* figure out what's wrong with point-source tier segmentation
-	* something's wrong when you try to use multiple tiers
+0. put sound file in resources folder so default configs work out of box
+1. look into Hx/fminsearch bug, file issue
+1.5. find Lizzy's CPP code and commit it
 
+2. finish OutputToText
+3. finish writing Hello World/Quickstart
+* replace Tcl/Tk dependencies with RAPT code ???
 
-# Enhancements
-* Hx is a bottleneck ==> CVX optimization instead of NMSMAX? (see CVXPY)
-* Need better/error-proof way to change settings & parameters
-* Need to check settings dependencies before processing
+* benchmarks (faithfulness, speed vs Matlab)
+* EGG
+* look into Windows compatibility, *Nix compatibility
 
-# Testing
-* need to check that EGG files are processed correctly
