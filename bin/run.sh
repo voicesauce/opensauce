@@ -34,8 +34,8 @@ pwd
 
 # copy over config artifacts
 cp $makefile Makefile
-cp $settings my_settings
-cp $docket my_docket
+cp $settings settings
+cp $docket docket
 cp $config config
 cp $ott_settings output_settings
 
