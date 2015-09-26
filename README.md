@@ -35,12 +35,4 @@ Let's assume you have a directory of sound (*.wav) files in the directory `~/sou
 
 1. Change into the opensauce directory: `cd ~/opensauce`
 2. Make sure your `SAUCE_ROOT` environment variable is set by typing `echo $SAUCE_ROOT` on the command line. If nothing is printed, type `export SAUCE_ROOT=$PWD`.
-3. 
-
-
-## Notes
-
-### Tcl/Tk on Ubuntu
-
-1. `sudo apt-get install wish`
-2. 
+3. Run `make clean`, then `make run`.
