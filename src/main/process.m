@@ -16,9 +16,9 @@ if (nargin == 8)
 	% VoiceSauce(indir, outdir, settings_mat, docket_mat);
 	[instance_data, err] = batch_process(indir, outdir, settings_mat, docket_mat, tgdir);
 	
-	% if (err == 0)
-	% 	OutputToText(ott_settings_mat, settings_mat, ott_outputdir, matdir);
-	% end
+	if (err == 0)
+		OutputToText(ott_settings_mat, settings_mat, ott_outputdir, matdir);
+	end
 else
 	printf('error: usage: %s', usage);
 	exit(-1);
