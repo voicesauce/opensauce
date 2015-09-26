@@ -1,5 +1,6 @@
 function err = doFunction(param, settings, instance_data)
     err = 0;
+    printf('doFunction: param = %s\n', param);
     switch param
         case 'F0_Straight'
             printf('%s...', param);
@@ -41,20 +42,3 @@ function err = doFunction(param, settings, instance_data)
     end %endswitch
     assert (err == 0, 'Something went wrong.');
 end %endfunction
-
-F0_Straight,0
-F0_Snack,0
-F0_Praat,0
-F0_SHR,0
-F0_Other,0
-Formants_Snack,0
-Formants_Praat,0
-Formants_Other,0
-H1_H2_H4,0
-A1_A2_A3,0
-H1H2_H2H4_norm,0
-H1A1_H1A2_H1A3_norm,0
-Energy,0
-CPP,1
-HNR,0
-SHR,0

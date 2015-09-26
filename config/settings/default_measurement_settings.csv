@@ -1,9 +1,9 @@
 sid,default
 verbose,0
-useTextGrid,1
+useTextGrid,0
 process16khz,0
 showWaveForm,0
-F0algorithm,'F0_Snack'
+F0algorithm,F0_Snack
 maxF0,500
 minF0,40
 SHRmax,500
@@ -21,7 +21,7 @@ praat_smoothingbandwidth,5
 praat_killoctavejumps,0
 praat_interpolate,0
 praat_method,'ac'
-FMTalgorithm,'Formants_Snack'
+FMTalgorithm,Formants_Snack
 preemphasis,0.96
 windowsize,25
 frameshift,1

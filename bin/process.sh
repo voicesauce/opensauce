@@ -1,19 +1,19 @@
 #!/bin/bash
 
-echo "PROCESS.SH"
-
 rundir=`pwd`
-config=config
+config="$rundir/config"
 data=`SAUCE_CONFIG=$config $SAUCE_ROOT/bin/get_expand_config.sh datapath`
-settings=settings.mat
-ott=output_settings.mat
-docket=docket.mat
+settings="$rundir/settings.mat"
+ott="$rundir/output_settings.mat"
+docket="$rundir/docket.mat"
 matdir=`$SAUCE_ROOT/bin/get_expand_config.sh matdir`
+tgdir=`$SAUCE_ROOT/bin/get_expand_config.sh textgrid_dir`
 outputdir=$1
 octavepath=`which octave`
 
 # process.m data-dir run-dir user-settings docket output-settings matfile-dir output-dir
-$octavepath -qf $SAUCE_ROOT/src/main/process.m $data $rundir $settings $docket $ott $outputdir $matdir 
+echo "process.sh: docket file = $docket, settings file = $settings"
+$octavepath -qf $SAUCE_ROOT/src/main/process.m $data $rundir $settings $docket $ott $outputdir $matdir $tgdir
 
 # rundir=`$SAUCE_ROOT/bin/get_expand_config.sh rundir`
 # data=`$SAUCE_ROOT/bin/get_expand_config.sh datapath`

@@ -5,6 +5,9 @@ function err = doSnackPitch(settings, instance)
     frameshift = settings.frameshift;
     maxF0 = settings.maxF0;
     minF0 = settings.minF0;
+
+    printf('windowsize=%s, frameshift=%s, maxF0=%s, minF0=%s\n', windowsize, frameshift, maxF0, minF0);
+
     F0algorithm = settings.F0algorithm;
     % get instance data
     wavfile = instance.wavfile;

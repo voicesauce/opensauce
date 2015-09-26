@@ -1,17 +1,23 @@
-function [instance_data, err] = batch_process(indir, outdir, settings_mat, docket_mat)
-    TAG = 'batch_process.m';
-    printf('\n%s input=%s output=%s settings=%s, docket=%s\n', TAG, indir, outdir, settings_mat, docket_mat);
-    % Process a batch of wav files.
-    settings = load(settings_mat);
-    % builder praat settings struct
-    settings.praat = praat_settings(settings);
-    selection = load(docket_mat);    
-    % for debugging
+function [instance_data, err] = batch_process(indir, outdir, settings_mat, docket_mat, textgrid_dir)
+    TAG = 'batch_process.m: ';
+    printf('settings_mat=%s\n', settings_mat);
+
+    % s = load(settings_mat);
+    % settings = s.settings;
+    load(settings_mat);
+
+    windowsize = settings.windowsize;
+    frameshift = settings.frameshift;
+    maxF0 = settings.maxF0;
+    minF0 = settings.minF0;
+
+    printf('windowsize=%s, frameshift=%s, maxF0=%s, minF0=%s\n', windowsize, frameshift, maxF0, minF0);
+
+    % build praat settings struct
+    % FIXME: s.praat = praat_settings(settings);
+    selection = getSelection(docket_mat);
     verbose = settings.verbose;
     err = 0;
-    % TODO this won't work on Windows / possibly other *nix platforms
-    % check to make sure that indir and outdir were both passed in as absolute
-    % file paths (e.g. '/Users/kate/path-to-wavfiles')
     homeroot = getenv('HOME');
     l = length(homeroot);
     if (strcmp('~/', indir(1:2) == 0) && strcmp(homeroot, indir(1:l) == 0))
@@ -20,49 +26,30 @@ function [instance_data, err] = batch_process(indir, outdir, settings_mat, docke
         err = 1;
         return;
     end
-    % if indir is passed in as "~/path-to-wavs", change it to "/Users/name/path-to-wavs"
-    % b/c for some reason Snack Pitch doesn't like it the other way
     if (strcmp('~', indir(1)))
         indir = [homeroot '/' indir(3:end)];
     end
-
-    % build the list of files to process
-    wavlist = dir(fullfile(indir, '*.wav'));
-    n = length(wavlist);
-    filelist = cell(1, n);
-    for k=1:n
-        filelist{k} = wavlist(k).name;
-        if (verbose)
-            fprintf('file [%d] = "%s"\n', k, filelist{k});
-        end
-    end
+    filelist = getFiles(indir);
     numwavfiles = length(filelist);
     wavdir = indir;
     matdir = outdir;
-    % check if the matfile directory actually exists; if it doesn't, 
-    % create a new directory to store resulting .mat files
     if (exist(outdir, 'dir') ~= 7)
         fprintf('creating new directory [ %s ]\n', outdir);
         mkdir(outdir);
     end
-
-    fprintf('\nBatch processing %d *.wav files in %s', numwavfiles, indir);
+    fprintf('%s Batch processing %d *.wav files in %s\n', TAG, numwavfiles, indir);
     for k=1:numwavfiles
-        fprintf('\nProcessing file %s: ', filelist{k});
-        fprintf('\t [%d / %d]\n', k, numwavfiles);
+        fprintf('%s Processing file %s\n', TAG, filelist{k});
         wavfile = [wavdir '/' filelist{k}];
         mfile = [matdir '/' filelist{k}(1:end-3) 'mat'];
-        % check that wavfile actually exists
         if (exist(wavfile, 'file') == 0)
-            fprintf('\n\n\t ==> Error: wavfile [ %s ] not found \n\n', wavfile);
+            fprintf('%s Error: wavfile [ %s ] not found \n', TAG, wavfile);
             err = 1; instance_data = NaN;
             return;
         end
-        % if we're using TextGrids, check to see whether the textgridfile exists
-        textgrid_dir = settings.textgrid_dir; % user-specified
-        textgridfile = [filelist{k}(1:end-3) 'Textgrid']; % build filename based on wavfile name
-        useTextgrid = settings.useTextGrid; % whether or not the user specified this
-        if (useTextgrid == 1)
+        textgridfile = '';
+        if (settings.useTextGrid == 1)
+            textgridfile = [filelist{k}(1:end-3) 'Textgrid']; % build filename based on wavfile name
             % if (strcmp(textgrid_dir, '') == 1)
             %     if (verbose)
             %         fprintf('Textgrid dir empty, default to [%s]\n', wavdir);
@@ -71,17 +58,13 @@ function [instance_data, err] = batch_process(indir, outdir, settings_mat, docke
             % end
             textgridfile = [textgrid_dir '/' textgridfile];
             if (verbose)
-                fprintf('Checking for existence of Textgrid file [%s]\n', textgridfile);
+                fprintf('%s Checking for existence of Textgrid file [%s]\n', TAG, textgridfile);
             end
             if (exist(textgridfile, 'file') == 0)
                 textgridfile = '';
                 useTextgrid = 0;
             end
         end
-        if (verbose)
-            fprintf('\n\n\t[bp line 75]\n\twavfile = %s\n\tmatfile = %s\n\ttextgridfile = %s\n', wavfile, mfile, textgridfile);
-            fprintf('textgrid_dir = %s\n\n', textgrid_dir);
-        end   
         % read in the wav file: y = sampled data in y, Fs = sample rate, nbits = number of bits per sample
         [y, Fs, nbits] = wavread(wavfile);
         if (size(y, 2) > 1)
@@ -91,9 +74,8 @@ function [instance_data, err] = batch_process(indir, outdir, settings_mat, docke
         % calculate the length of data vectors - all measures will have this
         % length - important!
         data_len = floor(length(y) / Fs * 1000 / settings.frameshift(1));
-        % Store instance data in a struct
         resampled = 0; %FIXME -- need to get resample to 16 kHx working
-        instance_data = build_instance(wavdir, wavfile, matdir, mfile, textgrid_dir, textgridfile, useTextgrid, y, Fs, nbits, data_len, resampled, verbose, settings);
+        instance_data = build_instance(wavdir, wavfile, matdir, mfile, textgrid_dir, textgridfile, settings.useTextGrid, y, Fs, nbits, data_len, resampled, verbose, settings);
         % parse the parameter list to get proper ordering
         paramList = fieldnames(selection);
         m = length(paramList);
@@ -107,15 +89,42 @@ function [instance_data, err] = batch_process(indir, outdir, settings_mat, docke
         for i=1:m
             err = doFunction(ordered{i,1}, settings, instance_data);
         endfor
-        fprintf('\n');
         % delete temp wavfile if it exists
         if(resampled)
             delete(wavfile);
         end
     end % END MAIN LOOP
-    printf('\nBatch processing complete.\n');
+    printf('%s Batch processing complete.\n', TAG);
     assert (err == 0, 'something went wrong');
     res = 0;
+end
+
+function selection = getSelection(docket_mat)
+    s = load(docket_mat);
+    s = s.docket;
+    fnames = fieldnames(s);
+    selection.foo = 'bar';
+    for i=1:nfields(s)
+        field = fnames{i};
+        if (s.(field) == '1')
+            field
+            selection.(field) = 1;
+        endif
+    endfor
+    selection = rmfield(selection, 'foo');
+end
+
+function filelist = getFiles(indir)
+    % build the list of files to process
+    wavlist = dir(fullfile(indir, '*.wav'));
+    n = length(wavlist);
+    filelist = cell(1, n);
+    for k=1:n
+        filelist{k} = wavlist(k).name;
+        % if (verbose)
+        %     fprintf('file [%d] = "%s"\n', k, filelist{k});
+        % end
+    end
 end
 
 function idx = orderOf(param)

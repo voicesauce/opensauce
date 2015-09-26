@@ -1,4 +1,4 @@
-#!/usr/bin/make -f
+#!/usr/bin/make -f -s
 
 CONFIG?=$(SAUCE_ROOT)/config/default.config
 RUNDIR := $(shell SAUCE_CONFIG=$(CONFIG) $(SAUCE_ROOT)/bin/get_expand_config.sh rundir)

@@ -14,3 +14,4 @@ priorities (Kate):
 * EGG
 * look into Windows compatibility, *Nix compatibility
 
+4. get rid of python dep

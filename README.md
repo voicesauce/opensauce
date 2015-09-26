@@ -29,6 +29,18 @@ or open a new Terminal session.
 
 If you're not on a Mac, add "export SAUCE_ROOT=/path/to/opensauce/directory" to your .profile manually.
 
-## Hello World
+## Quickstart
 
-Coming soon...
+Let's assume you have a directory of sound (*.wav) files in the directory `~/sounds` and that you've cloned the opensauce repository into the folder `~/opensauce`.
+
+1. Change into the opensauce directory: `cd ~/opensauce`
+2. Make sure your `SAUCE_ROOT` environment variable is set by typing `echo $SAUCE_ROOT` on the command line. If nothing is printed, type `export SAUCE_ROOT=$PWD`.
+3. 
+
+
+## Notes
+
+### Tcl/Tk on Ubuntu
+
+1. `sudo apt-get install wish`
+2. 

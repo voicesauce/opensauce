@@ -37,7 +37,9 @@ def csv_to_dict(file, delimiter=","):
 def dict_to_csv(dict, outfile):
 	string = ""
 	for (k, v) in dict.items():
-		string += k+","+v.strip("\n")+"\n"
+		string += k+","+v.strip("\n")+"\n"function csv_to_mat(filename)
+	printf('csv_to_mat: ', filename);
+end
 	string = string.strip("\n")
 	with open(outfile, "w") as f:
 		f.write(string)

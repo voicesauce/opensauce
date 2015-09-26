@@ -2,9 +2,6 @@
 
 OUTDIR := $(shell SAUCE_CONFIG=$(SAUCE_CONFIG) $(SAUCE_ROOT)/bin/get_expand_config.sh outputdir)
 
-foo: $(SAUCE_CONFIG)
-	echo "just barring i guess"
-
 output_settings.mat settings.mat docket.mat setup: $(SAUCE_CONFIG)
 	$(SAUCE_ROOT)/bin/setup.sh $<
 
