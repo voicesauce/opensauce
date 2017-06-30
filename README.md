@@ -1,5 +1,11 @@
 # OPENSAUCE
 
+**THIS PROJECT IS NO LONGER BEING WORKED ON!!!**
+
+**For the open source version of VoiceSauce, please use** [opensauce-python](http://github.com/voicesauce/opensauce-python)
+
+ <br /> <br /> <br />
+
 OPENSAUCE is an GNU Octave-compatible version of [VOICESAUCE](http://www.seas.ucla.edu/spapl/voicesauce/), software for automated voice measurements.
 
 ## Dependencies
